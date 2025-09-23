@@ -7,9 +7,8 @@ on:
            - main
 
 env:
-    DOCKER_IMAGE: ${{ vars.DOCKERHUB_USERNAME }}/front-session13          
-#push on main branch
-
+    DOCKER_IMAGE: ${{ vars.DOCKERHUB_USERNAME }}/front-session13   
+    VITE_API_URI: "https://api.18.lebondeveloppeur.net"       
 
 jobs:
     run-unit-test-job:
@@ -32,7 +31,7 @@ jobs:
               uses: actions/checkout@v5
 
             - name: build docker image
-              run: docker build -t ${{ env.DOCKER_IMAGE }} .
+              run: docker build -t ${{ env.DOCKER_IMAGE }}  --build-arg VITE_API_URI=${{ env.VITE_API_URI }} .
             
             - name: tag docker image with version
               run: docker tag ${{ env.DOCKER_IMAGE }} ${{ env.DOCKER_IMAGE }}:v${{ github.run_number}}
